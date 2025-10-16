@@ -1,6 +1,19 @@
 <!-- eslint-disable vue/multi-word-component-names -->
+<!-- eslint-disable @typescript-eslint/no-unused-vars -->
+<!-- eslint-disable vue/block-lang -->
+
+<script setup>
+  import { RouterView } from 'vue-router';
+import LayoutFooter from './components/LayoutFooter.vue';
+import LayoutHeader from './components/LayoutHeader.vue';
+import LayoutNav from './components/LayoutNav.vue';
+
+
+</script>
 <template>
-    <div>我是首页</div>
     <!-- 二级路由出口 -->
-     <RouterView/>
+     <LayoutNav />
+  <LayoutHeader />
+  <RouterView />
+  <LayoutFooter />
 </template>
