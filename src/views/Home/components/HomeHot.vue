@@ -3,6 +3,7 @@
 import { getHotAPI } from "@/api/home";
 import { ref } from "vue";
 import HomePanal from './HomePanal.vue';
+// 定义懒加载插件
 
 const hotList = ref([]);
 const getHotList = async () => {
@@ -18,7 +19,7 @@ getHotList();
       <ul class="goods-list">
         <li v-for="item in hotList" :key="item.id">
           <RouterLink to="/">
-            <img :src="item.picture" alt="" />
+            <img v-img-lazy="item.picture"  alt="" />
             <p class="name">{{ item.title }}</p>
             <p class="desc">{{ item.alt }}</p>
           </RouterLink>
