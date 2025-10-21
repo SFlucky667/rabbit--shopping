@@ -14,6 +14,8 @@ const getBanner=async()=>{
 onMounted(()=>{
   getBanner()
 })
+
+
 </script>
 
 
