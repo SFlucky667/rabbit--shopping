@@ -1,42 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <!-- eslint-disable vue/block-lang -->
 <script setup>
-  import { getCategoryAPI } from '@/api/category'
-import { getBannerAPI } from '@/api/home'
-import { onMounted, ref } from 'vue'
-import { onBeforeRouteUpdate, useRoute } from 'vue-router'
-import GoodsItem from '../Home/components/Goodsltem.vue'
-//获取数据
-  const categoryData=ref({})
-  //如何在组件内部获取路由参数等
-  const route=useRoute()
-  const getCategory=async(id=route.params.id)=>{
-    const res=await getCategoryAPI(id)
-    categoryData.value=res.result
-  }
-  onMounted(()=>getCategory())
-  //目标：路由参数变化的时候 可以把分类数据接口重新发送（getCategory）
-  onBeforeRouteUpdate((to)=>{
-     console.log('路由变化了')
-     //存在问题：使用最新的路由参数请求最新的分类数据
-     console.log(to)
-     getCategory(to.params.id)
-  })
-  //获取banner
-  const bannerList=ref([])
-
-const getBanner=async()=>{
-      const res=await getBannerAPI({
-        distributionSite:'2'
-      })
-      console.log(res)
-      bannerList.value=res.result
-}
-onMounted(()=>{
-  getBanner()
-})
+import GoodsItem from '../Home/components/Goodsltem.vue';
+import { useBanner } from './composables/useBanner';
+import { useCategory } from './composables/useCategory';
+const {bannerList}=useBanner()
+const {categoryData}=useCategory()
+  
 </script>
 
+  
 <template>
   <div class="top-category">
     <div class="container m-top-20">
