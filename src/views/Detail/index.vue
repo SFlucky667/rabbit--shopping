@@ -57,7 +57,7 @@ onMounted(()=>getGoods())
                 </li>
                 <li>
                   <p>品牌信息</p>
-                  <p>{{goods.brand.name}} </p>
+                  <p>{{goods.brand?.name}} </p>
                   <p><i class="iconfont icon-dynamic-filling"></i>品牌主页</p>
                 </li>
               </ul>
@@ -121,9 +121,9 @@ onMounted(()=>getGoods())
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
             <!--24小时  -->
-            <DetailHot/>
+            <DetailHot :hot-type="1"/>
             <!-- 周 -->
-             <DetailHot/>
+             <DetailHot :hot-type="2"/>
             </div>
           </div>
         </div>
