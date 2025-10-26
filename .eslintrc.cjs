@@ -11,6 +11,12 @@ module.exports = {
   //添加不再强制要求组件重命名的配置
   rules:{
     'vue/multi-word-component-names':0,
-  }
+    'vue/script-setup-uses-vars': 'off'
+  },
+  // .eslintrc.js
+extends: [
+  'eslint:recommended',
+  'plugin:vue/vue3-recommended' // 确保是 vue3-recommended
+]
 }
 
