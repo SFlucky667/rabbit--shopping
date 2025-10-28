@@ -1,7 +1,8 @@
 <!-- eslint-disable vue/block-lang -->
 <script setup>
+import { useUserStore } from '@/stores/user';
 import { ElPopconfirm } from 'element-plus';
-
+const userStore=useUserStore()
 </script>
 
 <template>
@@ -9,8 +10,10 @@ import { ElPopconfirm } from 'element-plus';
     <div class="container">
       <ul>
         <!-- 多模版渲染 区分登录状态和非登录状态 -->
-        <template v-if="false">
-          <li><a href="javascript:;"><i class="iconfont icon-user"></i>周杰伦</a></li>
+
+        <!-- 适配思路：登录时显示第一块 非登录时显示第二块是否有token-->
+        <template v-if="userStore.userInfo.token">
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{ userStore.userInfo.account }}</a></li>
           <li>
             <el-popconfirm title="确认退出吗?" confirm-button-text="确认" cancel-button-text="取消">
               <template #reference>
