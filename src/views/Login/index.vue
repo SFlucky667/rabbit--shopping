@@ -2,12 +2,13 @@
 <!-- eslint-disable vue/block-lang -->
 <script setup>
 //表单校验（账号名+密码）
-import { loginAPI } from '@/api/user';
 import { ElMessage } from 'element-plus';
 import "element-plus/theme-chalk/el-message.css";
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+import { useUserStore } from '@/stores/user';
+const userStore=useUserStore()
 //1.准备表单对象
 const form=ref({
     account:'',
@@ -51,15 +52,14 @@ const doLogin=()=>{
     //以valid做为判断条件 如果通过校验才执行登录逻辑
     if(valid){
      //TODO LOGIN
-   const res=await loginAPI({account,password})
-   console.log(res)
+     await userStore.getUserInfo({account,password})
    //1.提示用户
    ElMessage({type:'success',message:'登录成功'})
    //2.跳转首页
    router.replace({path:'/'})
     }
   })
-}
+} 
 //1.用户名和密码 之需要通过简单的配置（）看文档的方式-复杂功能通过多个不同组件拆解
 //2.同意协议 自定义规则 validator:(rule,value,callback)=>{}
 //3.统一校验 通过调用form实例的方法 validate->true
