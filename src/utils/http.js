@@ -2,6 +2,8 @@
 import axios from 'axios'
 import {ElMessage} from 'element-plus'
 import { useUserStore } from '@/stores/user'
+import router from '@/router'
+
 const httpInstance = axios.create({
   baseURL: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
   timeout: 5000,
@@ -25,13 +27,21 @@ httpInstance.interceptors.request.use(config => {
 httpInstance.interceptors.response.use(
   res => res.data,
    e => {
+    const userStore=useUserStore()
     //这里通过拦截器的方式，来发送提示信息
     //这个response是拦截到响应码不是200了就会执行这个
     ElMessage({
       type:"warning",
       message:e.response.data.message,
     });
-  return Promise.reject(e);
+    //401token失效处理
+   //1.清除本地用户数据
+   //2.跳转到登录页
+     if(e.response.status===401){
+      userStore.clearUserInfo()
+      router.push('/login')
+     }
+     return Promise.reject(e);
 });
 
 
