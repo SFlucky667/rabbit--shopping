@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { fileURLToPath, URL } from 'node:url'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -33,4 +34,20 @@ export default defineConfig({
       },
        },
   },
+  server: {
+    proxy: {
+      '/pcapi': {
+        target: 'http://pcapi-xiaotuxian-front-devtest.itheima.net',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/pcapi/, ''),
+        configure: (proxy, options) => {
+          proxy.on('proxyReq', (proxyReq, req, res) => {
+            if (req.method === 'GET') {
+              proxyReq.method = 'POST'; // 强制转为 POST
+            }
+          });
+        }
+      }
+    }
+  }
 })
