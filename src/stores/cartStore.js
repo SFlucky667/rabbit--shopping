@@ -46,6 +46,11 @@ export const useCartStore=defineStore('cart',()=>{
     }
 }
 
+   //清除购物车
+   const clearCart=()=>{
+    cartList.value=[]
+   }
+   
  //获取最新购物车列表action
  const updateNewList=async()=>{
     const res=await findNewCartCartListAPI()
@@ -83,6 +88,7 @@ export const useCartStore=defineStore('cart',()=>{
         selectedCount,
         selectedPrice,
         addCart,
+        clearCart,
         delCart,
         allCheck,
         singleCheck
