@@ -17,3 +17,13 @@ export const findNewCartListAPI=()=>{
         url:'/member/cart'
     })
 }
+
+export const delCartApI=(ids)=>{
+    return request({
+        url:'/member/cart',
+        method:'DELETE',
+        data:{
+            ids
+        }
+    })
+}

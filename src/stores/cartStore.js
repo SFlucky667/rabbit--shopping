@@ -1,10 +1,9 @@
 //封装购物车模块(action函数)
-import {defineStore} from 'pinia'
-import {ref} from 'vue'
-import {computed} from 'vue'
-import {useUserStore} from '@/stores/user'
-import {insertCartAPI,findNewCartListAPI} from '@/api/cart'
-export const useCartStore=defineStore('cart',()=>{
+import { delCartApI, insertCartAPI } from '@/api/cart'
+import { useUserStore } from '@/stores/user'
+import { defineStore } from 'pinia'
+import { computed, ref } from 'vue'
+export const useCartStore=defineStore('cart',()=>{  
      const userStore=useUserStore()
   const isLogin=computed(()=>userStore.userInfo.token)
     //1.定义state
@@ -15,8 +14,7 @@ export const useCartStore=defineStore('cart',()=>{
         if(isLogin.value){
             //登录之后的加入购物车逻辑
             await insertCartAPI({skuId,count})
-            const res=await findNewCartListAPI()
-            cartList.value=res.result
+           updateNewList()
         }else{
         //添加购物车操作
         //已添加-count+1
@@ -33,13 +31,26 @@ export const useCartStore=defineStore('cart',()=>{
         }
     }
     //删除购物车
-    const delCart=(skuId)=>{
+    const delCart=async(skuId)=>{
+        if(isLogin.value){
+           //调用接口实现接口购物车中的删除功能
+         await  delCartApI([skuId])
+         //删除成功后，更新最新的购物车列表
+        updateNewList()
+        }else{
         //思路：
         //1.找到要删除项的下标值-splice
         //2.使用数组的过滤方法-filter
         const idx=cartList.value.findIndex((item)=>skuId==item.skuId)
         cartList.value.splice(idx,1)
     }
+}
+
+ //获取最新购物车列表action
+ const updateNewList=async()=>{
+    const res=await findNewCartCartListAPI()
+    cartList.value=res.result
+ }
     //单选功能
     const singleCheck=(skuId,selected)=>{
         //通过skuId找到要修改的那一项，然后把他的selected修改为传过来的selected
