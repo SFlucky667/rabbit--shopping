@@ -1,8 +1,9 @@
 //封装购物车模块(action函数)
-import { delCartApI, insertCartAPI } from '@/api/cart'
+import { delCartApI, findNewCartListAPI, insertCartAPI } from '@/api/cart'
 import { useUserStore } from '@/stores/user'
 import { defineStore } from 'pinia'
 import { computed, ref } from 'vue'
+
 export const useCartStore=defineStore('cart',()=>{  
      const userStore=useUserStore()
   const isLogin=computed(()=>userStore.userInfo.token)
@@ -50,10 +51,10 @@ export const useCartStore=defineStore('cart',()=>{
    const clearCart=()=>{
     cartList.value=[]
    }
-   
+
  //获取最新购物车列表action
  const updateNewList=async()=>{
-    const res=await findNewCartCartListAPI()
+    const res=await findNewCartListAPI()
     cartList.value=res.result
  }
     //单选功能
@@ -87,6 +88,7 @@ export const useCartStore=defineStore('cart',()=>{
         allPrice,
         selectedCount,
         selectedPrice,
+        updateNewList,
         addCart,
         clearCart,
         delCart,
